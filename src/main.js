@@ -11,7 +11,7 @@ import {
   hideLoadMoreButton,
 } from './js/render-functions.js';
 
-const searchForm = document.querySelector('.search-form');
+const searchForm = document.querySelector('.form');
 const loadMoreBtn = document.querySelector('.load-more-btn');
 
 let userQuery = '';
