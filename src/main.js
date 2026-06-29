@@ -17,6 +17,7 @@ const loadMoreBtn = document.querySelector('.load-more-btn');
 let userQuery = '';
 let page = 1;
 let totalHits = 0;
+const perPage = 15;
 
 searchForm.addEventListener('submit', handleSearch);
 if (loadMoreBtn) loadMoreBtn.addEventListener('click', handleLoadMore);
@@ -54,14 +55,18 @@ async function handleSearch(event) {
         closeColor: '#FFF',
         maxWidth: '432px',
       });
-      hideLoader();
       return;
     }
 
     createGallery(data.hits);
 
-    if (totalHits > page * 15) {
+    if (totalHits > page * perPage) {
       showLoadMoreButton();
+    } else {
+      iziToast.info({
+        message: "We're sorry, but you've reached the end of search results.",
+        position: 'topRight',
+      });
     }
   } catch (error) {
     iziToast.error({
@@ -85,7 +90,7 @@ async function handleLoadMore() {
 
     smoothScroll();
 
-    if (page * 15 >= totalHits) {
+    if (page * perPage >= totalHits) {
       hideLoadMoreButton();
       iziToast.info({
         message: "We're sorry, but you've reached the end of search results.",
@@ -105,7 +110,7 @@ async function handleLoadMore() {
   }
 }
 
-void function smoothScroll() {
+function smoothScroll() {
   const galleryItem = document.querySelector('.gallery-item');
 
   if (galleryItem) {
@@ -116,4 +121,4 @@ void function smoothScroll() {
       behavior: 'smooth',
     });
   }
-};
+}

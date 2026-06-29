@@ -5,12 +5,17 @@ const galleryContainer = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const loadMoreBtn = document.querySelector('.load-more-btn');
 
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
+let lightbox;
+if (galleryContainer) {
+  lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  });
+}
 
 export function createGallery(images) {
+  if (!galleryContainer) return;
+
   const markup = images
     .map(
       ({
@@ -38,19 +43,24 @@ export function createGallery(images) {
     .join('');
 
   galleryContainer.insertAdjacentHTML('beforeend', markup);
-  lightbox.refresh();
+
+  if (lightbox) {
+    lightbox.refresh();
+  }
 }
 
 export function clearGallery() {
-  galleryContainer.innerHTML = '';
+  if (galleryContainer) {
+    galleryContainer.innerHTML = '';
+  }
 }
 
 export function showLoader() {
-  loader.classList.remove('is-hidden');
+  if (loader) loader.classList.remove('is-hidden');
 }
 
 export function hideLoader() {
-  loader.classList.add('is-hidden');
+  if (loader) loader.classList.add('is-hidden');
 }
 
 export function showLoadMoreButton() {
